@@ -1,6 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import IdCta from '../components/IdCta'
+import { getIdcta } from '../config/config'
+import { doSomethingOutSideReact } from '../lib/outsideReact'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -17,10 +20,7 @@ const Home: NextPage = () => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
+        <IdCta />
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
@@ -67,6 +67,17 @@ const Home: NextPage = () => {
       </footer>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  const url = await getIdcta();
+  await doSomethingOutSideReact();
+
+  console.log("URL SERVER-SIDE::: ", url);
+
+  return {
+    props: {}
+  }
 }
 
 export default Home
