@@ -1,27 +1,29 @@
+import type { Config } from "../types/config";
+
 // Support window.config in TS
 declare global {
-  interface Window { swConfig: any; }
+  interface Window { swConfig: Config; }
 }
 
 export function isClientSide() {
   return typeof window !== 'undefined' && typeof window.document !== 'undefined';
 }
 
-export async function init() {
+export async function init(): Promise<Config> {
   // Need to split the path like below so webpack understands what we're
   // trying to do: https://github.com/webpack/webpack/issues/6680#issuecomment-370800037
-  const { default: config } = await import("./" + process.env.HOST + ".json");
+  const { config } = await import("./" + process.env.HOST + ".ts");
 
   return config;
 }
 
-export async function get(key: string): Promise<unknown> {
+export async function get(): Promise<Config> {
   if (!isClientSide()) {
     const config = await init();
-    return config[key];
+    return config;
   }
 
-  return window.swConfig[key];
+  return window.swConfig;
 }
 
 /**
@@ -29,6 +31,6 @@ export async function get(key: string): Promise<unknown> {
  * config value.
  */
 export async function getIdcta(): Promise<{ url: string }> {
-  const idcta = get("idcta") as Promise<{ url: string }>;
-  return idcta;
+  const config = await get();
+  return config.idcta;
 }
