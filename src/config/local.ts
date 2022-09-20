@@ -1,6 +1,6 @@
 export const config = {
   environment: "local",
   idcta: {
-    url: "http://idcta.local/"
+    url: process?.env?.IDCTA_URL ?? "http://idcta.local/"
   }
 };
