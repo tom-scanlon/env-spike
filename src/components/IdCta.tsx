@@ -16,7 +16,7 @@ const IdCta = () => {
     }
 
     getUrl();
-  });
+  }), [];
 
   doSomethingOutSideReact();
 

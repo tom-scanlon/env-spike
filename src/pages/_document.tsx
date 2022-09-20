@@ -1,9 +1,10 @@
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
 import Script from "next/script";
 import { init } from "../config/config";
+import { Config } from '../types/config';
 
 interface Props {
-  config: unknown;
+  config: Config;
 }
 
 class MyDocument extends Document<Props> {
